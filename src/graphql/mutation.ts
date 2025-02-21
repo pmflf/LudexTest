@@ -14,6 +14,7 @@ export const Mutation: IMutation<Context> = {
       name: something.name,
     };
   },
+  //NOTE - creates a todo with a specific format of date https://scalars.graphql.org/andimarek/date-time.html
   createTodo: async (_, { input }, { prisma }) => {
     const todo = await prisma.todo.create({
       data: {

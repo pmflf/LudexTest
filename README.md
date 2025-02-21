@@ -101,6 +101,8 @@ mutation {
 }
 ```
 
+for inserting date time refer to [the examples on this page](https://scalars.graphql.org/andimarek/date-time.html)
+
 The response from the backend will appear on the right-hand side of the UI.
 
 ## The Test

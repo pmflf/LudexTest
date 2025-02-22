@@ -49,5 +49,6 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     hello: String
     getAllTodo(pagination: paginationInput): [Todo]
+    getAllIncompleteTodo(pagination: paginationInput): [Todo]
   }
 `;

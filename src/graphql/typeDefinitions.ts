@@ -46,10 +46,15 @@ export const typeDefs = /* GraphQL */ `
     take: Int
   }
 
+  input getTodoByIdInput {
+    id: ID!
+  }
+
   type Query {
     hello: String
     getAllTodo(pagination: paginationInput): [Todo]
     getAllIncompleteTodo(pagination: paginationInput): [Todo]
     getAllCompleteTodo(pagination: paginationInput): [Todo]
+    getTodoById(input: getTodoByIdInput!): Todo
   }
 `;

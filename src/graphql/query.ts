@@ -71,4 +71,14 @@ export const Query: IQuery<Context> = {
     
     return todos
   },
+
+  getTodoById: async (_, { input }, { prisma }) => {
+    const todo = await prisma.todo.findUnique({
+      where: {
+        id: input.id
+      }
+    })
+    
+    return todo
+  }
 };

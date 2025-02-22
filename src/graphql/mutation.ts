@@ -46,7 +46,26 @@ export const Mutation: IMutation<Context> = {
 			id: todo.id,
 			title: todo.title,
 			completed: todo.completed,
-      dueDate: todo.dueDate
+			dueDate: todo.dueDate,
+		};
+	},
+
+	//NOTE - updates the title of a todo
+	updateTodoTitle: async (_, { input }, { prisma }) => {
+		const todo = await prisma.todo.update({
+			where: {
+				id: input.id,
+			},
+			data: {
+				title: input.title,
+			},
+		});
+
+		return {
+			id: todo.id,
+			title: todo.title,
+			completed: todo.completed,
+			dueDate: todo.dueDate,
 		};
 	},
 };

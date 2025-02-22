@@ -3,6 +3,7 @@ import type { Context } from "./context";
 
 export const Query: IQuery<Context> = {
   hello: () => "world",
+
   getAllTodo: async (_, { pagination }, { prisma }) => {
     let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
     if (pagination) {
@@ -20,6 +21,7 @@ export const Query: IQuery<Context> = {
     
     return todos
   },
+
   getAllIncompleteTodo: async (_, { pagination }, { prisma }) => {
     let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
     if (pagination) {
@@ -43,5 +45,30 @@ export const Query: IQuery<Context> = {
     }
     
     return todos
-  }
+  },
+
+  getAllCompleteTodo: async (_, { pagination }, { prisma }) => {
+    let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
+    if (pagination) {
+      todos = await prisma.todo.findMany(
+        {
+          where: {
+            completed: true
+          },
+          skip: pagination.skip ?? 0,
+          //NOTE - undefined makes it so it fetches everything
+          take: pagination.take ?? undefined
+        }
+      )
+    }
+    else {
+      todos = await prisma.todo.findMany({
+        where: {
+          completed: true
+        }
+      })
+    }
+    
+    return todos
+  },
 };

@@ -29,6 +29,8 @@ export const typeDefs = /* GraphQL */ `
     id: ID!
     title: String!
     completed: Boolean!
+    createdAt: Date!
+    updatedAt: Date!
     dueDate: Date!
   }
 
@@ -39,7 +41,13 @@ export const typeDefs = /* GraphQL */ `
     updateTodoTitle(input: UpdateTodoTitleInput!): Todo!
   }
 
+  input paginationInput {
+    skip: Int
+    take: Int
+  }
+
   type Query {
     hello: String
+    getAllTodo(pagination: paginationInput): [Todo]
   }
 `;

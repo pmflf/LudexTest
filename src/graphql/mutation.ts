@@ -27,6 +27,8 @@ export const Mutation: IMutation<Context> = {
 			id: todo.id,
 			title: todo.title,
 			completed: todo.completed,
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
 			dueDate: todo.dueDate,
 		};
 	},
@@ -46,6 +48,8 @@ export const Mutation: IMutation<Context> = {
 			id: todo.id,
 			title: todo.title,
 			completed: todo.completed,
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
 			dueDate: todo.dueDate,
 		};
 	},
@@ -65,6 +69,8 @@ export const Mutation: IMutation<Context> = {
 			id: todo.id,
 			title: todo.title,
 			completed: todo.completed,
+      createdAt: todo.createdAt,
+      updatedAt: todo.updatedAt,
 			dueDate: todo.dueDate,
 		};
 	},

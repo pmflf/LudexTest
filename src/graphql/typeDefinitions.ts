@@ -65,5 +65,7 @@ export const typeDefs = /* GraphQL */ `
     getAllIncompleteTodo(pagination: PaginationInput, sorting: SortingInput): [Todo]
     getAllCompleteTodo(pagination: PaginationInput, sorting: SortingInput): [Todo]
     getTodoById(input: GetTodoByIdInput!): Todo
+    getAllOverdueTodo(pagination: PaginationInput): [Todo]
+    getAllUpcomingTodo(pagination: PaginationInput): [Todo]
   }
 `;

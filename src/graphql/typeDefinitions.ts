@@ -25,6 +25,10 @@ export const typeDefs = /* GraphQL */ `
     title: String!
   }
 
+  input DeleteTodoInput {
+    id: ID!
+  }
+
   type Todo {
     id: ID!
     title: String!
@@ -39,6 +43,7 @@ export const typeDefs = /* GraphQL */ `
     createTodo(input: CreateTodoInput!): Todo!
     updateTodoCompletion(input: UpdateTodoCompletionInput!): Todo!
     updateTodoTitle(input: UpdateTodoTitleInput!): Todo!
+    deleteTodo(input: DeleteTodoInput): String!
   }
 
   input paginationInput {

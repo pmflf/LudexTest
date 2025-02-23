@@ -128,4 +128,33 @@ export const Mutation: IMutation<Context> = {
 			dueDate: todo.dueDate,
 		};
 	},
+
+  deleteTodo: async (_, { input }, { prisma }) => {
+    if (!input) {
+      throw new GraphQLError("input is required with the field 'id'")
+    }
+    if (typeof input.id !== "string"){
+      throw new GraphQLError("id must be a string")
+    }
+
+    //NOTE - check if entry exists
+    try{
+      await prisma.todo.findUniqueOrThrow({
+        where: {
+          id: input.id
+        }
+      })
+    } catch (err) {
+      throw new GraphQLError("the given id does not have an associated Todo")
+    }
+
+		const todo = await prisma.todo.delete({
+			where: {
+				id: input.id,
+			}
+		});
+
+		return `Todo ${todo.id} was deleted`
+;
+	},
 };

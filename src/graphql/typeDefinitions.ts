@@ -12,7 +12,7 @@ export const typeDefs = /* GraphQL */ `
 
   input CreateTodoInput {
     title: String!
-    dueDate: Date!
+    dueDate: String!
   }
 
   input UpdateTodoCompletionInput {

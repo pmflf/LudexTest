@@ -238,23 +238,23 @@ export const Query: IQuery<Context> = {
 			filterOptions.take = pagination.take;
 		}
 
-    const today = new Date()
+		const today = new Date();
 
 		todos = await prisma.todo.findMany({
 			skip: filterOptions.skip ?? undefined,
 			take: filterOptions.take ?? undefined,
 			where: {
 				dueDate: {
-          lt: today
-        },
-        completed: false
+					lt: today,
+				},
+				completed: false,
 			},
 		});
 
 		return todos;
 	},
 
-  getAllUpcomingTodo: async (_, { pagination }, { prisma }) => {
+	getAllUpcomingTodo: async (_, { pagination }, { prisma }) => {
 		let todos:
 			| Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>
 			| {
@@ -278,16 +278,16 @@ export const Query: IQuery<Context> = {
 			filterOptions.take = pagination.take;
 		}
 
-    const today = new Date()
+		const today = new Date();
 
 		todos = await prisma.todo.findMany({
 			skip: filterOptions.skip ?? undefined,
 			take: filterOptions.take ?? undefined,
 			where: {
 				dueDate: {
-          gt: today
-        },
-        completed: false
+					gt: today,
+				},
+				completed: false,
 			},
 		});
 

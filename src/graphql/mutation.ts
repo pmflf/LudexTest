@@ -1,6 +1,6 @@
 import type { MutationResolvers as IMutation } from "./generated/graphql";
 import type { Context } from "./context";
-import { GraphQLError, validate } from "graphql";
+import { GraphQLError } from "graphql";
 
 export const Mutation: IMutation<Context> = {
 	createSomething: async (_, { input }, { prisma }) => {

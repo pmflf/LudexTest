@@ -6,7 +6,7 @@ const config = z.object({
     .string()
     .optional()
     .default("4000")
-    .transform((val) => parseInt(val)),
+    .transform((val) => Number.parseInt(val)),
 });
 
 type Config = z.infer<typeof config>;

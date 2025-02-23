@@ -19,19 +19,19 @@ app.listen(port, () => {
 
 process.on("unhandledRejection", (reason: unknown) => {
   if (reason instanceof Error) {
-    console.error(`unhandledRejection`, {
+    console.error("unhandledRejection", {
       message: reason.message,
       stack: cleanStack(reason.stack),
     });
   } else if (typeof reason === "string") {
-    console.error(`unhandledRejection`, {
+    console.error("unhandledRejection", {
       message: reason,
     });
   }
 });
 
 process.on("uncaughtException", (error: Error) => {
-  console.error(`uncaughtException`, {
+  console.error("uncaughtException", {
     message: error.message,
     stack: cleanStack(error.stack),
   });
@@ -39,13 +39,13 @@ process.on("uncaughtException", (error: Error) => {
 });
 
 process.on("SIGTERM", () => {
-  console.info(`SIGTERM signal received.`);
-  console.info(`Closing http server.`);
+  console.info("SIGTERM signal received.");
+  console.info("Closing http server.");
   process.exit(0);
 });
 
 process.on("SIGINT", () => {
-  console.info(`SIGTERM signal received.`);
-  console.info(`Closing http server.`);
+  console.info("SIGTERM signal received.");
+  console.info("Closing http server.");
   process.exit(0);
 });

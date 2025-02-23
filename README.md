@@ -90,6 +90,32 @@ query {
 }
 ```
 
+```graphql
+query{
+  getAllTodo(options: {field: value}){
+    id
+    title
+    completed
+    createdAt
+    updatedAt
+    dueDate
+  }
+}
+```
+##### list of queries
+- getAllTodo (params: pagination, sorting) *optional*
+- getAllIncompleteTodo (params: pagination, sorting) *optional*
+- getAllCompleteTodo (params: pagination, sorting) *optional*
+- getTodoById (params: input) *required*
+- getAllOverdueTodo(params: pagination) *optional*
+- getAllUpcomingTodo (params: pagination) *optional*
+
+##### params
+- pagination {skip: number, take: number} *optional*
+- sorting {orderBy: 'asc' or 'desc'} *required*
+- input {id: string} *required*
+
+
 To run a **mutation**, use:
 
 ```graphql
@@ -100,6 +126,44 @@ mutation {
   }
 }
 ```
+
+```graphql
+mutation {
+  createTodo(input: {title: string, dueDate: Date}){
+    <!-- at least one is required -->
+    id
+    title
+    completed
+    createdAt
+    updatedAt
+    dueDate
+  }
+}
+```
+
+##### list of mutations
+*NOTE: Date is a string that can be transformed into a Date object by using new Date(string)*
+
+all mutations return (id, title, completed, createdAt, updatedAt, dueDate) **except deleteTodo**
+- createTodo(input: {
+  title: string,
+  dueDate: Date
+})
+- updateTodocompletion(input: {
+  id: string,
+  completed: boolean
+})
+- updateTodoTitle(input: {
+  id: string,
+  title: string
+})
+- deleteTodo(input: {
+  id: string
+}) **returns a string not a Todo object**
+
+
+
+
 
 The response from the backend will appear on the right-hand side of the UI.
 

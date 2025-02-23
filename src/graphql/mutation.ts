@@ -53,6 +53,24 @@ export const Mutation: IMutation<Context> = {
 
 	//NOTE - updates the completed status of a todo
 	updateTodoCompletion: async (_, { input }, { prisma }) => {
+    if (!input) {
+      throw new GraphQLError("input is required with the field 'id' and 'completed'")
+    }
+    if (typeof input.id !== "string" || typeof input.completed !== "boolean"){
+      throw new GraphQLError("id must be a string and completed must be a boolean")
+    }
+
+    //NOTE - check if entry exists
+    try{
+      await prisma.todo.findUniqueOrThrow({
+        where: {
+          id: input.id
+        }
+      })
+    } catch (err) {
+      throw new GraphQLError("the given id does not have an associated Todo")
+    }
+
 		const todo = await prisma.todo.update({
 			where: {
 				id: input.id,
@@ -74,6 +92,24 @@ export const Mutation: IMutation<Context> = {
 
 	//NOTE - updates the title of a todo
 	updateTodoTitle: async (_, { input }, { prisma }) => {
+    if (!input) {
+      throw new GraphQLError("input is required with the field 'id' and 'title'")
+    }
+    if (typeof input.id !== "string" || typeof input.title !== "string"){
+      throw new GraphQLError("id and title must be a string")
+    }
+
+    //NOTE - check if entry exists
+    try{
+      await prisma.todo.findUniqueOrThrow({
+        where: {
+          id: input.id
+        }
+      })
+    } catch (err) {
+      throw new GraphQLError("the given id does not have an associated Todo")
+    }
+
 		const todo = await prisma.todo.update({
 			where: {
 				id: input.id,

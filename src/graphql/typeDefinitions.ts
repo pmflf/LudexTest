@@ -46,20 +46,24 @@ export const typeDefs = /* GraphQL */ `
     deleteTodo(input: DeleteTodoInput): String!
   }
 
-  input paginationInput {
+  input PaginationInput {
     skip: Int
     take: Int
   }
 
-  input getTodoByIdInput {
+  input SortingInput {
+    orderBy: String
+  }
+
+  input GetTodoByIdInput {
     id: ID!
   }
 
   type Query {
     hello: String
-    getAllTodo(pagination: paginationInput): [Todo]
-    getAllIncompleteTodo(pagination: paginationInput): [Todo]
-    getAllCompleteTodo(pagination: paginationInput): [Todo]
-    getTodoById(input: getTodoByIdInput!): Todo
+    getAllTodo(pagination: PaginationInput, sorting: SortingInput): [Todo]
+    getAllIncompleteTodo(pagination: PaginationInput, sorting: SortingInput): [Todo]
+    getAllCompleteTodo(pagination: PaginationInput, sorting: SortingInput): [Todo]
+    getTodoById(input: GetTodoByIdInput!): Todo
   }
 `;

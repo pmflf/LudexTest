@@ -1,45 +1,108 @@
-import type { QueryResolvers as IQuery, Maybe, ResolverTypeWrapper, Todo } from "./generated/graphql";
+import type { InputMaybe, QueryResolvers as IQuery, Maybe, ResolverTypeWrapper, Todo } from "./generated/graphql";
 import type { Context } from "./context";
+import { filter } from "graphql-yoga";
+import { GraphQLError } from "graphql";
 
 //REVIEW - Not sure if we need validation on these input parameters, I believe GraphQL does it automatically for us
 
 export const Query: IQuery<Context> = {
   hello: () => "world",
-  getAllTodo: async (_, { pagination }, { prisma }) => {
-    
+  getAllTodo: async (_, { pagination, sorting }, { prisma }) => {
     let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
-    if (pagination) {
-      todos = await prisma.todo.findMany(
-        {
-          skip: pagination.skip ?? 0,
-          //NOTE - undefined makes it so it fetches everything
-          take: pagination.take ?? undefined
-        }
-      )
+    const filterOptions: {
+      skip: InputMaybe<number> | undefined
+      take: InputMaybe<number> | undefined
+      orderBy: InputMaybe<string> | undefined
+    } = {
+      skip: undefined,
+      take: undefined,
+      orderBy: undefined
     }
-    else {
-      todos = await prisma.todo.findMany()
+    if (pagination) {
+      filterOptions.skip = pagination.skip
+      filterOptions.take = pagination.take
+    }
+    if (sorting) {
+      if (sorting.orderBy !== "asc" && sorting.orderBy !== "desc") {
+        throw new GraphQLError("sorting order has to be asc or descending")
+      }
+      filterOptions.orderBy = sorting.orderBy
+    }
+
+    if (filterOptions.orderBy === "asc") {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "asc"
+        }
+      })
+    } else if(filterOptions.orderBy === "desc") {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "desc"
+        }
+      })
+    } else {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+      })
     }
     
     return todos
   },
 
-  getAllIncompleteTodo: async (_, { pagination }, { prisma }) => {
+  getAllIncompleteTodo: async (_, { pagination, sorting }, { prisma }) => {
     let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
-    if (pagination) {
-      todos = await prisma.todo.findMany(
-        {
-          where: {
-            completed: false
-          },
-          skip: pagination.skip ?? 0,
-          //NOTE - undefined makes it so it fetches everything
-          take: pagination.take ?? undefined
-        }
-      )
+    const filterOptions: {
+      skip: InputMaybe<number> | undefined
+      take: InputMaybe<number> | undefined
+      orderBy: InputMaybe<string> | undefined
+    } = {
+      skip: undefined,
+      take: undefined,
+      orderBy: undefined
     }
-    else {
+    if (pagination) {
+      filterOptions.skip = pagination.skip
+      filterOptions.take = pagination.take
+    }
+    if (sorting) {
+      if (sorting.orderBy !== "asc" && sorting.orderBy !== "desc") {
+        throw new GraphQLError("sorting order has to be asc or descending")
+      }
+      filterOptions.orderBy = sorting.orderBy
+    }
+    
+    if (filterOptions.orderBy === "asc") {
       todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "asc"
+        },
+        where: {
+          completed: false
+        }
+      })
+    } else if(filterOptions.orderBy === "desc") {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "desc"
+        },
+        where: {
+          completed: false
+        }
+      })
+    } else {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
         where: {
           completed: false
         }
@@ -47,24 +110,57 @@ export const Query: IQuery<Context> = {
     }
     
     return todos
+    
   },
 
-  getAllCompleteTodo: async (_, { pagination }, { prisma }) => {
+  getAllCompleteTodo: async (_, { pagination, sorting }, { prisma }) => {
     let todos: Maybe<Maybe<ResolverTypeWrapper<Todo>>[]> | { id: string; title: string; completed: boolean; createdAt: Date; updatedAt: Date; dueDate: Date; }[] | PromiseLike<Maybe<Maybe<ResolverTypeWrapper<Todo>>[]>> = []
-    if (pagination) {
-      todos = await prisma.todo.findMany(
-        {
-          where: {
-            completed: true
-          },
-          skip: pagination.skip ?? 0,
-          //NOTE - undefined makes it so it fetches everything
-          take: pagination.take ?? undefined
-        }
-      )
+    const filterOptions: {
+      skip: InputMaybe<number> | undefined
+      take: InputMaybe<number> | undefined
+      orderBy: InputMaybe<string> | undefined
+    } = {
+      skip: undefined,
+      take: undefined,
+      orderBy: undefined
     }
-    else {
+    if (pagination) {
+      filterOptions.skip = pagination.skip
+      filterOptions.take = pagination.take
+    }
+    if (sorting) {
+      if (sorting.orderBy !== "asc" && sorting.orderBy !== "desc") {
+        throw new GraphQLError("sorting order has to be asc or descending")
+      }
+      filterOptions.orderBy = sorting.orderBy
+    }
+    
+    if (filterOptions.orderBy === "asc") {
       todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "asc"
+        },
+        where: {
+          completed: true
+        }
+      })
+    } else if(filterOptions.orderBy === "desc") {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
+        orderBy: {
+          createdAt: "desc"
+        },
+        where: {
+          completed: true
+        }
+      })
+    } else {
+      todos = await prisma.todo.findMany({
+        skip: filterOptions.skip ?? undefined,
+        take: filterOptions.take ?? undefined,
         where: {
           completed: true
         }
